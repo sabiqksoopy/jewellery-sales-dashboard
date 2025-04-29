@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jewellery Sales Entry</title>
+  <style>
+    body {
+      background-color: #4B0082;
+      color: white;
+      font-family: sans-serif;
+    }
+    header {
+      text-align: center;
+      margin-top: 20px;
+    }
+    header img {
+      height: 80px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #6A0DAD;
+    }
+    input {
+      background-color: #ffffff33;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      padding: 4px;
+      width: 80px;
+    }
+    .controls {
+      text-align: center;
+      margin: 20px;
+    }
+    .controls button {
+      background-color: #6A0DAD;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .report-time {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Jewellery Logo" />
+    <h1>Hourly Sales Entry - AKT Sales in all Branches</h1>
+  </header>
+
+  <div class="report-time">
+    <label for="report-time">Time of Reporting:</label>
+    <input type="time" id="report-time" />
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Branch</th>
+        <th>Gold (gm)</th>
+        <th>18KT Gold (gm)</th>
+        <th>Diamond (₹)</th>
+        <th>Precious Stones (₹)</th>
+        <th>Uncut Diamond (₹)</th>
+        <th>Old Gold (gm)</th>
+        <th>Scheme Joins</th>
+        <th>MC Gold (%)</th>
+        <th>MC 18KT (%)</th>
+        <th>Walk-ins</th>
+      </tr>
+    </thead>
+    <tbody id="entry-body"></tbody>
+  </table>
+
+  <div class="controls">
+    <button onclick="saveData()">Save & Update View</button>
+    <button onclick="window.open('view.html', '_blank')">Open Management View</button>
+  </div>
+
+  <script>
+    const branches = ['PERAMBRA', 'BALUSSERY', 'MUKKAM', 'THAMARASSERY', 'IRITTY', 'MEPPAYUR'];
+    const tbody = document.getElementById('entry-body');
+
+    // Generate form rows
+    branches.forEach((branch, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${branch}</td>
+        <td><input id="gold_${index}" type="number"></td>
+        <td><input id="gold18_${index}" type="number"></td>
+        <td><input id="diamond_${index}" type="number"></td>
+        <td><input id="stones_${index}" type="number"></td>
+        <td><input id="uncut_${index}" type="number"></td>
+        <td><input id="old_${index}" type="number"></td>
+        <td><input id="scheme_${index}" type="number"></td>
+        <td><input id="mcgold_${index}" type="number" step="0.1"></td>
+        <td><input id="mc18_${index}" type="number" step="0.1"></td>
+        <td><input id="walkins_${index}" type="number"></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    function saveData() {
+      const time = document.getElementById("report-time").value;
+      const records = [];
+
+      branches.forEach((branch, i) => {
+        records.push({
+          branch,
+          time,
+          gold: document.getElementById(`gold_${i}`).value,
+          gold18: document.getElementById(`gold18_${i}`).value,
+          diamond: document.getElementById(`diamond_${i}`).value,
+          stones: document.getElementById(`stones_${i}`).value,
+          uncut: document.getElementById(`uncut_${i}`).value,
+          old: document.getElementById(`old_${i}`).value,
+          scheme: document.getElementById(`scheme_${i}`).value,
+          mcgold: document.getElementById(`mcgold_${i}`).value,
+          mc18: document.getElementById(`mc18_${i}`).value,
+          walkins: document.getElementById(`walkins_${i}`).value
+        });
+      });
+
+      localStorage.setItem("jewellerySales", JSON.stringify(records));
+      alert("Data saved! Management view updated.");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Management View</title>
+  <style>
+    body {
+      background-color: #4B0082;
+      color: white;
+      font-family: sans-serif;
+    }
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid white;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #6A0DAD;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hourly Sales Summary - Management View</h1>
+  <table id="sales-table">
+    <thead>
+      <tr>
+        <th>Branch</th>
+        <th>Time</th>
+        <th>Gold (gm)</th>
+        <th>18KT Gold</th>
+        <th>Diamond (₹)</th>
+        <th>Stones (₹)</th>
+        <th>Uncut (₹)</th>
+        <th>Old Gold</th>
+        <th>Scheme</th>
+        <th>MC Gold (%)</th>
+        <th>MC 18KT (%)</th>
+        <th>Walk-ins</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+  </table>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("jewellerySales") || "[]");
+    const tbody = document.getElementById("table-body");
+
+    data.forEach(row => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.branch}</td>
+        <td>${row.time}</td>
+        <td>${row.gold}</td>
+        <td>${row.gold18}</td>
+        <td>${row.diamond}</td>
+        <td>${row.stones}</td>
+        <td>${row.uncut}</td>
+        <td>${row.old}</td>
+        <td>${row.scheme}</td>
+        <td>${row.mcgold}</td>
+        <td>${row.mc18}</td>
+        <td>${row.walkins}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
